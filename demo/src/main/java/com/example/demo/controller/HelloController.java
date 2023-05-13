@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -18,6 +19,13 @@ public class HelloController {
 
     @GetMapping("/cs")
     public Map<String, Object> cs() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("msg", "helloworld");
+        return map;
+    }
+
+    @PostMapping("/cspost")
+    public Map<String, Object> cspost() {
         Map<String, Object> map = new HashMap<>();
         map.put("msg", "helloworld");
         return map;
