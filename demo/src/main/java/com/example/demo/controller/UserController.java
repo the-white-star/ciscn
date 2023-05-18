@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController         //注解可以使结果以Json字符串的形式返回给客户端
+@CrossOrigin                //解决跨域问题
 @RequestMapping(value = "/api/user")         //使链接还有一个 /api
 public class UserController {
     @Autowired
