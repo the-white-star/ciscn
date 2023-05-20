@@ -50,18 +50,20 @@ public class UserController {
             //将结果存储下来
             return StatusCode.success("注册成功");
         }else{
-            return StatusCode.error(2000,"注册失败");
+            return StatusCode.error(2000,"用户已存在！");
         }
     }
 
-    @PostMapping(value = "tokenLogin")
+    @GetMapping(value = "tokenLogin")
     public @ResponseBody Map<String,Object> tokenLogin( @RequestParam("token") String token) {
         JwtUtils jwt = JwtUtils.getInstance();
         Claims claims = jwt.check(token);
         if (claims != null) {
             String userID = (String) claims.get("userID");
             try {
-                return StatusCode.success(userService.getUser(userID));
+                User user = userService.getUser(userID);
+                user.setPassword(null);
+                return StatusCode.success(user);
             } catch (Exception e) {
                 e.printStackTrace();
                 return StatusCode.error(3001, "服务器内部错误：" + e.toString());
