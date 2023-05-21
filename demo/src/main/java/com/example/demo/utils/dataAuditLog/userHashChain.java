@@ -1,5 +1,7 @@
-package com.dataAuditLog;
+package com.example.demo.utils.dataAuditLog;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,4 +34,13 @@ public class userHashChain {
             System.out.println(str);
         }
     }
+
+//    public byte[] getInfo() throws IOException {
+//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//        for (byte[] str : this.hashChain) {
+//            outputStream.write(str);
+//            outputStream.write("\n".getBytes());
+//        }
+//        return outputStream.toByteArray();
+//    }
 }

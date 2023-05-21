@@ -1,4 +1,4 @@
-package com.dataAuditLog;
+package com.example.demo.utils.dataAuditLog;
 
 import java.util.HashMap;
 

@@ -1,4 +1,4 @@
-package com.dataAuditLog;
+package com.example.demo.utils.dataAuditLog;
 
 public class TEST {
     public static void main(String[] args) {

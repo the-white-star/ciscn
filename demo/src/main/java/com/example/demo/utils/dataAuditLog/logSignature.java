@@ -1,4 +1,4 @@
-package com.dataAuditLog;
+package com.example.demo.utils.dataAuditLog;
 
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
