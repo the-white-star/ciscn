@@ -10,4 +10,8 @@ import java.util.List;
 public interface StuInfo_ScoreList_Mapper {
     @Select("SELECT * FROM ScoreList")
     List<StuInfo_ScoreList> findAll();
+
+    @Select("SELECT count(*) FROM ScoreList")
+    int isScoreList();
+
 }

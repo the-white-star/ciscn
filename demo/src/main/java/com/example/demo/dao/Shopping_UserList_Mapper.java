@@ -10,4 +10,8 @@ import java.util.List;
 public interface Shopping_UserList_Mapper {
     @Select("SELECT * FROM UserList")
     List<Shopping_UserList> findAll();
+
+    @Select("SELECT count(*) FROM UserList")
+    int isUserList();
+
 }

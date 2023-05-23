@@ -10,4 +10,8 @@ import java.util.List;
 public interface StuInfo_RewardPunishment_Mapper {
     @Select("SELECT * FROM Reward_Punishment")
     List<StuInfo_RewardPunishment> findAll();
+
+    @Select("SELECT count(*) FROM Reward_Punishment")
+    int isRP();
+
 }

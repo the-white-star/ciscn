@@ -10,4 +10,8 @@ import java.util.List;
 public interface Medical_MedicalList_Mapper {
     @Select("SELECT * FROM MedicalList")
     List<Medical_MedicalList> findAll();
+
+    @Select("SELECT count(*) FROM MedicalList")
+    int isMedicalList();
+
 }
