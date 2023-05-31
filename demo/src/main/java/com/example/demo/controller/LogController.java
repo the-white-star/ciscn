@@ -22,11 +22,13 @@ import java.util.Map;
 @CrossOrigin                //解决跨域问题
 @RequestMapping(value = "/api/log")         //使链接还有一个 /api
 public class LogController {
+    //理解为创建实体
     @Autowired
     LogService logService;
     @Autowired
     UserService userService;
 
+    //get请求
     @GetMapping(value = "getList")
     public @ResponseBody
     Map<String,Object> getListLog(@RequestParam("token") String token,@RequestParam("page") int page, HttpServletRequest request) {
@@ -41,7 +43,6 @@ public class LogController {
                 Log log = new Log((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()),
                         "查看日志" ,userID, IPUtils.getIPAddress(request), "日志模块");
                 logService.insertLog(log);
-
 
                 return StatusCode.success(listLog);
             } catch (Exception e) {

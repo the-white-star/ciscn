@@ -128,4 +128,30 @@ public class UserController {
         }
     }
 
+
+    //用户权限申请日志
+    @GetMapping(value = "User_Rights_Application")
+    public @ResponseBody
+    Map<String, Object> getUserRightsApplication(@RequestParam("token") String token, HttpServletRequest request) {
+        JwtUtils jwt = JwtUtils.getInstance();
+        Claims claims = jwt.check(token);
+        if (claims != null) {
+            String userID = (String) claims.get("userID");
+            try {
+                // 记录下日志
+                Log log = new Log((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()),
+                        "用户权限申请", userID, IPUtils.getIPAddress(request), "用户权限申请模块");
+                logService.insertLog(log);
+                Map<String, Object> map = new HashMap<>();
+                map.put("msg", "user right application!");
+                return map;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return StatusCode.error(3001, "服务器内部错误：" + e.toString());
+            }
+        } else {
+            //非法token
+            return StatusCode.error(2001, "用户未登录");
+        }
+    }//end getUserRightsApplication
 }

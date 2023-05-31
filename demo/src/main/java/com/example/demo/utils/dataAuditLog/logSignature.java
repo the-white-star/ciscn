@@ -69,7 +69,7 @@ public class logSignature {
     public hashChain getHchain(){
         return hchain;
     }
-//
+
 //    // 获取所有用户的访问记录哈希链
 //    public static String getAllUserAccessRecordHashChain(List<DataSignature> userAccessRecords) {
 //        StringBuilder sb = new StringBuilder();

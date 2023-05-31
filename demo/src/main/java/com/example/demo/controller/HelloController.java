@@ -23,6 +23,7 @@ public class HelloController {
     @GetMapping("/cs")
     public Map<String, Object> cs() {
         Map<String, Object> map = new HashMap<>();
+
         map.put("msg", "helloworld");
         return map;
     }

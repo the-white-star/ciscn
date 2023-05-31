@@ -20,6 +20,12 @@ public interface LogMapper {
     /**
      * 分页返回
      */
-    @Select("select * from logs limit #{first},#{second};")
+    @Select("select * from logs order by createdAt desc limit #{first},#{second};")
     List<Log> listLog(int first, int second);
+
+    /**
+     * @return 返回日志的总条数
+     */
+    @Select("select count(*) from logs;")
+    int Logtotalpage();
 }
