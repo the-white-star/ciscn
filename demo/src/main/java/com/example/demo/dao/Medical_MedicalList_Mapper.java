@@ -8,10 +8,10 @@ import java.util.List;
 
 @Mapper
 public interface Medical_MedicalList_Mapper {
-    @Select("SELECT * FROM MedicalList")
+    @Select("SELECT * FROM Medical_MedicalList")
     List<Medical_MedicalList> findAll();
 
-    @Select("SELECT count(*) FROM MedicalList")
+    @Select("SELECT count(*) FROM Medical_MedicalList")
     int isMedicalList();
 
 }

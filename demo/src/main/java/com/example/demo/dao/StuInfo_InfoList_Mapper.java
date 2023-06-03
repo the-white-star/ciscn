@@ -8,10 +8,10 @@ import java.util.List;
 
 @Mapper
 public interface StuInfo_InfoList_Mapper {
-    @Select("SELECT * FROM StuInfoList")
+    @Select("SELECT * FROM StuInfo_InfoList")
     List<StuInfo_InfoList> findAll();
 
-    @Select("SELECT count(*) FROM StuInfoList")
+    @Select("SELECT count(*) FROM StuInfo_InfoList")
     int isInfoList();
 
 }
