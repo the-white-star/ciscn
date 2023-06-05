@@ -2,9 +2,11 @@ package com.example.demo.controller;
 
 
 import com.example.demo.dao.AllTableMapper;
+import com.example.demo.pojo.Databases;
 import com.example.demo.pojo.Log;
 import com.example.demo.pojo.Medical_Insurance;
 import com.example.demo.service.AllTable_Service;
+import com.example.demo.service.Databases_Service;
 import com.example.demo.service.LogService;
 import com.example.demo.utils.IPUtils;
 import com.example.demo.utils.JwtUtils;
@@ -23,7 +25,7 @@ public class AdminController {
     @Autowired
     LogService logService;
     @Autowired
-    AllTable_Service allTable_service;
+    Databases_Service databases_service;
 
     //数据查看日志
     @GetMapping(value = "Data_Viewing")
@@ -105,32 +107,62 @@ public class AdminController {
     }//end getUserRights
 
 
-    //查看数据表结构
-    @GetMapping(value = "Table_Struct")
-    public @ResponseBody
-    Map<String, Object> getTable_Struct(@RequestParam("database_nanme") String database_name) {
-        int tmp = allTable_service.isAllTable();
-        if (tmp == 0) {
-            return StatusCode.error(2001, "数据不存在");
-        } else {
-            List<String> tablenames = allTable_service.findAll();
-            //System.out.println(tablenames.toString());
-            List<String> fintablenames = new ArrayList<String>();   //最终的结果
-            for (String tableName : tablenames) {
-                String[] parts = tableName.split("_"); // 拆分元素
-                if (parts[0].equals(database_name)) { // 判断是否匹配成功
-                    //System.out.println(tableName);
-                    fintablenames.add(tableName);
-                }
-            }
+//    //查看数据表结构
+//    @GetMapping(value = "Table_Struct")
+//    public @ResponseBody
+//    Map<String, Object> getTable_Struct(@RequestParam("database_nanme") String database_name) {
+//        int tmp = allTable_service.isAllTable();
+//        if (tmp == 0) {
+//            return StatusCode.error(2001, "数据不存在");
+//        } else {
+//            List<String> tablenames = allTable_service.findAll();
+//            //System.out.println(tablenames.toString());
+//            List<String> fintablenames = new ArrayList<String>();   //最终的结果
 //            for (String tableName : tablenames) {
-//                String prefix = tableName.substring(0, database_name.length()); // 截取前缀
-//                if (prefix.equals(database_name)) { // 判断是否匹配成功
-////                    System.out.println(tableName);
+//                String[] parts = tableName.split("_"); // 拆分元素
+//                if (parts[0].equals(database_name)) { // 判断是否匹配成功
+//                    //System.out.println(tableName);
 //                    fintablenames.add(tableName);
 //                }
 //            }
-            return StatusCode.success(fintablenames);
+////            for (String tableName : tablenames) {
+////                String prefix = tableName.substring(0, database_name.length()); // 截取前缀
+////                if (prefix.equals(database_name)) { // 判断是否匹配成功
+//////                    System.out.println(tableName);
+////                    fintablenames.add(tableName);
+////                }
+////            }
+//            return StatusCode.success(fintablenames);
+//        }
+//    }
+
+    //显示全部数据库的名字和描述
+    @GetMapping(value = "databases")
+    public @ResponseBody
+    Map<String, Object> getDatabases() {
+        int tmp = databases_service.isDatabases();
+        if (tmp == 0) {
+            return StatusCode.error(2001, "数据不存在");
+        } else {
+            List<Databases> databaseslist = databases_service.findAll();
+            Set<String> finDB = new HashSet<>(); //去重
+            for (Databases db : databaseslist) {
+                finDB.add(db.getDBname());
+            }
+            return StatusCode.success(finDB);
         }
-    }
+    }//end getDatabases
+
+    //显示数据库对应的表
+    @GetMapping(value = "DB")
+    public @ResponseBody
+    Map<String, Object> getTables(@RequestParam("DBid") int DBid) {
+        List<Databases> listtables = databases_service.listtables(DBid);
+        List<String> tablesname = new ArrayList<>();
+        for (Databases db : listtables) {
+            tablesname.add(db.getTablesname());
+        }
+        return StatusCode.success(tablesname);
+    }//end getTables
+
 }

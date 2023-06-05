@@ -1,6 +1,12 @@
 package com.example.demo.test;
 
 import com.example.demo.dao.AllTableMapper;
+import com.example.demo.dao.Medical_Insurance_Mapper;
+import com.example.demo.dao.Medical_MedicalList_Mapper;
+import com.example.demo.dao.Medical_PatientInfo_Mapper;
+import com.example.demo.pojo.Medical_Insurance;
+import com.example.demo.pojo.Medical_MedicalList;
+import com.example.demo.pojo.Medical_PatientInfo;
 import com.example.demo.service.AllTable_Service;
 import com.example.demo.utils.StatusCode;
 import com.example.demo.utils.dataAuditLog.logSignature;
@@ -50,16 +56,17 @@ public class AuditTest {
     }
 
     @Autowired
-    AllTable_Service allTable_service;
+    Medical_PatientInfo_Mapper medical_patientInfo_mapper;
+
 
     @Test
     public void test2() throws Exception{
-        int tmp = allTable_service.isAllTable();
+        int tmp = medical_patientInfo_mapper.isPatientInfo();
         if (tmp == 0) {
             //return StatusCode.error(2001, "数据不存在");
             System.out.println("null");
         } else {
-            List<String> tablenames = allTable_service.findAll();
+            List<Medical_PatientInfo> tablenames = medical_patientInfo_mapper.findAll();
             System.out.println(tablenames.toString());
             //return StatusCode.success(tablenames);
         }
