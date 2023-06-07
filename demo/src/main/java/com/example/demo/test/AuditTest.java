@@ -1,12 +1,8 @@
 package com.example.demo.test;
 
 import com.example.demo.dao.AllTableMapper;
-import com.example.demo.dao.Medical_Insurance_Mapper;
-import com.example.demo.dao.Medical_MedicalList_Mapper;
-import com.example.demo.dao.Medical_PatientInfo_Mapper;
-import com.example.demo.pojo.Medical_Insurance;
-import com.example.demo.pojo.Medical_MedicalList;
-import com.example.demo.pojo.Medical_PatientInfo;
+import com.example.demo.dao.ObjectMapper;
+import com.example.demo.dao.TableMapper;
 import com.example.demo.service.AllTable_Service;
 import com.example.demo.utils.StatusCode;
 import com.example.demo.utils.dataAuditLog.logSignature;
@@ -56,19 +52,27 @@ public class AuditTest {
     }
 
     @Autowired
-    Medical_PatientInfo_Mapper medical_patientInfo_mapper;
-
+    AllTable_Service allTable_service;
 
     @Test
     public void test2() throws Exception{
-        int tmp = medical_patientInfo_mapper.isPatientInfo();
+        int tmp = allTable_service.isAllTable();
         if (tmp == 0) {
             //return StatusCode.error(2001, "数据不存在");
             System.out.println("null");
         } else {
-            List<Medical_PatientInfo> tablenames = medical_patientInfo_mapper.findAll();
+            List<String> tablenames = allTable_service.findAll();
             System.out.println(tablenames.toString());
             //return StatusCode.success(tablenames);
         }
+    }
+
+    @Autowired
+    TableMapper tableMapper;
+    @Test
+    public void test3(){
+        String sql = "CREATE TABLE IF NOT EXISTS mytable (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))";
+        tableMapper.createTable(sql);
+        // System.out.println(objectMapper.findAll("logs").toString());
     }
 }
