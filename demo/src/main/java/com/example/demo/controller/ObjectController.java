@@ -59,15 +59,16 @@ public class ObjectController {
                     List<Databases> databaseslist = databases_service.findAll();
                     String log_tablename = "";   //获取中文名
                     for (Databases db : databaseslist) {
-                        if (db.gettablesname_en() == tablesname_en) {
+                        if (db.gettablesname_en().equals(tablesname_en)) {
                             log_tablename = db.gettablesname();
                             break;
                         }
                     }
                     String message = "查看";
+                    System.out.println(log_tablename);
                     message += log_tablename;
                     Log log = new Log((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()),
-                            "查看医保信息", userID, IPUtils.getIPAddress(request), "数据模块");
+                            message, userID, IPUtils.getIPAddress(request), "数据模块");
                     logService.insertLog(log);
 
                     return StatusCode.success(objectService.findAll(tablesname_en));
@@ -117,7 +118,7 @@ public class ObjectController {
                         //end id
 
                         //下面这部分是用来分割输入的中文表名称，以便和后续的英文名对应
-                        String[] tbnames = alltbname.split(","); // 使用逗号分隔字符串
+                        String[] tbnames = alltbname.split("，"); // 使用逗号分隔字符串
                         int index = 0;    //第一个中文名的下标为0
                         //end tbnames
 
@@ -143,23 +144,23 @@ public class ObjectController {
 
                         // 记录下日志
                         Log log = new Log((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()),
-                                "上传数据库", userID, IPUtils.getIPAddress(request), "用户权限管理模块");
+                                "上传数据库", userID, IPUtils.getIPAddress(request), "数据管理管理模块");
                         logService.insertLog(log);
 
                         result.put("msg", "文件上传成功!");
-                        return result;
+                        return StatusCode.success(result);
                     } catch (IOException e) {
                         //上传失败+原因
                         e.printStackTrace();
                         result.put("success", false);
                         result.put("msg", "上传失败：" + e.getMessage());
-                        return result;
+                        return StatusCode.success(result);
                     }
                 } else {
                     //文件为空导致的上传失败
                     result.put("success", false);
                     result.put("msg", "上传失败：文件为空!");
-                    return result;
+                    return StatusCode.success(result);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
