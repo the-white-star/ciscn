@@ -15,6 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -26,6 +29,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 @SpringBootTest
@@ -77,9 +82,30 @@ public class AuditTest {
     TableMapper tableMapper;
     @Test
     public void test3(){
-        String sql = "CREATE TABLE IF NOT EXISTS mytable (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))";
-        tableMapper.createTable(sql);
-        // System.out.println(objectMapper.findAll("logs").toString());
+        String filePath = "C:\\Users\\gypgy\\Desktop\\travel.sql";
+        String sql = "";
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                // 如果当前行是 SQL 语句的一部分，则将其添加到 sql 变量中
+                if (!line.trim().endsWith(";")) {
+                    sql += line + "\n";
+                } else { // 如果当前行是 SQL 语句的结尾，则执行这条 SQL 语句
+                    sql += line;
+//                    System.out.println(sql);
+                    Pattern pattern = Pattern.compile("CREATE\\s+TABLE\\s+IF\\s+NOT\\s+EXISTS\\s+(\\w+)");
+                    Matcher matcher = pattern.matcher(sql);
+                    if (matcher.find()) {
+                        String tableName = matcher.group(1);
+                        System.out.println(tableName); // 输出 mytable1
+                    }
+                    tableMapper.createTable(sql);
+                    sql = ""; // 清空 sql 变量
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 //    @Test
