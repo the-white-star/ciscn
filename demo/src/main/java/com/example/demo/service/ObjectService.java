@@ -5,5 +5,6 @@ import java.util.Map;
 
 
 public interface ObjectService {
-    List<Map<String, Object>> findAll(String tablename);
+    List<Map<String, Object>> findAll(String tablesname_en);
+    int isobject(String tablesname_en);
 }

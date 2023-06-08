@@ -15,6 +15,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -75,4 +81,28 @@ public class AuditTest {
         tableMapper.createTable(sql);
         // System.out.println(objectMapper.findAll("logs").toString());
     }
+
+//    @Test
+//    public void test3() throws Exception {
+//        // 读取SQL文件内容
+//        String filePath= "C:\\Users\\gypgy\\Desktop\\travel.sql";
+//        String dbName="travel";
+//        String username ="root";
+//        String password="wygjy";
+//        String sql = new String(Files.readAllBytes(Paths.get(filePath)), StandardCharsets.UTF_8);
+//
+//        // 连接数据库
+//        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + dbName
+//                        + "?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai",
+//                username, password);
+//
+//        // 执行SQL语句
+//        Statement stmt = conn.createStatement();
+//        stmt.execute(sql);
+//
+//        // 关闭连接
+//        stmt.close();
+//        conn.close();
+//    }
+
 }

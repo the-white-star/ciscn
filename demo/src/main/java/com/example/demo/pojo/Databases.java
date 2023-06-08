@@ -13,12 +13,16 @@ public class Databases {
     private String DBname;
     private String DBdescribe;
     private String tablesname;
-    public Databases(long id, String DBname, String DBdescribe, String tablesname) {
+    private String tablesname_en;
+    public Databases(long id, String DBname, String DBdescribe, String tablesname, String tablesname_en) {
         this.id = id;
         this.DBname = DBname;
         this.DBdescribe = DBdescribe;
         this.tablesname = tablesname;
+        this.tablesname_en = tablesname_en;
     }
-    public String getTablesname(){return tablesname;}
+    public Long getId(){return id;}
     public String getDBname(){return DBname;}
+    public String gettablesname(){return tablesname;}
+    public String gettablesname_en(){return tablesname_en;}
 }

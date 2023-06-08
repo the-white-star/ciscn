@@ -13,7 +13,10 @@ public class ObjectServiceImpl  implements ObjectService {
     ObjectMapper objectMapper;
 
     @Override
-    public List<Map<String, Object>> findAll(String tablename) {
-        return objectMapper.findAll(tablename);
+    public List<Map<String, Object>> findAll(String tablesname_en) {
+        return objectMapper.findAll(tablesname_en);
     }
+
+    @Override
+    public int isobject(String tablesname_en){return objectMapper.isobject(tablesname_en);}
 }

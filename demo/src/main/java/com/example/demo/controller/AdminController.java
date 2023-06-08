@@ -21,6 +21,7 @@ import java.util.*;
 
 @RestController         //注解可以使结果以Json字符串的形式返回给客户端
 @CrossOrigin                //解决跨域问题
+@RequestMapping(value = "/api")         //使链接还有一个 /api
 public class AdminController {
     @Autowired
     LogService logService;
@@ -137,32 +138,62 @@ public class AdminController {
 //    }
 
     //显示全部数据库的名字和描述
+//    @GetMapping(value = "databases")
+//    public @ResponseBody
+//    Map<String, Object> getDatabases() {
+//        int tmp = databases_service.isDatabases();
+//        if (tmp == 0) {
+//            return StatusCode.error(2001, "数据不存在");
+//        } else {
+//            List<Databases> databaseslist = databases_service.findAll();
+//            Set<String> finDB = new HashSet<>(); //去重
+//            for (Databases db : databaseslist) {
+//                finDB.add(db.getDBname());
+//            }
+//            return StatusCode.success(finDB);
+//        }
+//    }//end getDatabases
+
+    //显示全部数据库的id、名字和描述
     @GetMapping(value = "databases")
     public @ResponseBody
-    Map<String, Object> getDatabases() {
+    List<Map<String, Object>> getDatabases() {
         int tmp = databases_service.isDatabases();
         if (tmp == 0) {
-            return StatusCode.error(2001, "数据不存在");
+            return Collections.emptyList();
         } else {
             List<Databases> databaseslist = databases_service.findAll();
-            Set<String> finDB = new HashSet<>(); //去重
+            List<Map<String, Object>> result = new ArrayList<>();
+            Set<Long> idSet = new HashSet<>(); // 用来去重
             for (Databases db : databaseslist) {
-                finDB.add(db.getDBname());
+                Long id = db.getId();
+                if (idSet.contains(id)) {
+                    continue; // 如果已经存在相同的id，跳过这条记录
+                }
+                Map<String, Object> dbMap = new HashMap<>();
+                dbMap.put("id", id);
+                dbMap.put("DBname", db.getDBname());
+                dbMap.put("DBdescribe", db.getDBdescribe());
+                result.add(dbMap);
+                idSet.add(id); // 将当前记录的id添加到Set中
             }
-            return StatusCode.success(finDB);
+            return result;
         }
-    }//end getDatabases
+    }
 
-    //显示数据库对应的表
-    @GetMapping(value = "DB")
+    //根据数据库id显示数据库对应的表（包含中文和英文名）
+    @GetMapping(value = "DB_tables")
     public @ResponseBody
-    Map<String, Object> getTables(@RequestParam("DBid") int DBid) {
+    List<Map<String, Object>> getTables(@RequestParam("DBid") int DBid) {
         List<Databases> listtables = databases_service.listtables(DBid);
-        List<String> tablesname = new ArrayList<>();
+        List<Map<String, Object>> result = new ArrayList<>();
         for (Databases db : listtables) {
-            tablesname.add(db.getTablesname());
+            Map<String, Object> dbMap = new HashMap<>();
+            dbMap.put("tablesname", db.gettablesname());
+            dbMap.put("tablesname_en", db.gettablesname_en());
+            result.add(dbMap);
         }
-        return StatusCode.success(tablesname);
+        return result;
     }//end getTables
 
 }
