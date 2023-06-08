@@ -28,6 +28,6 @@ public interface DatabasesMapper {
     /**
      * 添加新的数据库表结构
      */
-    @Insert("insert into DBstruct(id,DBname,DBdescribe,tablesname) values(#{databases.id},#{databases.DBname},#{databases.DBdescribe},#{databases.tablesname})")
+    @Insert("insert into DBstruct(id,DBname,DBdescribe,tablesname, tablesname_en) values(#{databases.id},#{databases.DBname},#{databases.DBdescribe},#{databases.tablesname},#{databases.tablesname_en})")
     int insertDatabases(@Param("databases") Databases databases);
 }
