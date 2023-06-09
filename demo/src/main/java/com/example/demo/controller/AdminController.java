@@ -43,7 +43,7 @@ public class AdminController {
                 logService.insertLog(log);
                 Map<String, Object> map = new HashMap<>();
                 map.put("msg", "data view!");
-                return map;
+                return StatusCode.success(map);
             } catch (Exception e) {
                 e.printStackTrace();
                 return StatusCode.error(3001, "服务器内部错误：" + e.toString());
@@ -70,7 +70,7 @@ public class AdminController {
                 logService.insertLog(log);
                 Map<String, Object> map = new HashMap<>();
                 map.put("msg", "data Host!");
-                return map;
+                return StatusCode.success(map);
             } catch (Exception e) {
                 e.printStackTrace();
                 return StatusCode.error(3001, "服务器内部错误：" + e.toString());
@@ -96,7 +96,7 @@ public class AdminController {
                 logService.insertLog(log);
                 Map<String, Object> map = new HashMap<>();
                 map.put("msg", "user right manage!");
-                return map;
+                return StatusCode.success(map);
             } catch (Exception e) {
                 e.printStackTrace();
                 return StatusCode.error(3001, "服务器内部错误：" + e.toString());
@@ -157,10 +157,10 @@ public class AdminController {
     //显示全部数据库的id、名字和描述
     @GetMapping(value = "databases")
     public @ResponseBody
-    List<Map<String, Object>> getDatabases() {
+   Map<String, Object> getDatabases() {
         int tmp = databases_service.isDatabases();
         if (tmp == 0) {
-            return Collections.emptyList();
+            return StatusCode.error(2001, "数据不存在");
         } else {
             List<Databases> databaseslist = databases_service.findAll();
             List<Map<String, Object>> result = new ArrayList<>();
@@ -177,14 +177,15 @@ public class AdminController {
                 result.add(dbMap);
                 idSet.add(id); // 将当前记录的id添加到Set中
             }
-            return result;
+//            return result;
+            return StatusCode.success(result);
         }
     }
 
     //根据数据库id显示数据库对应的表（包含中文和英文名）
     @GetMapping(value = "DB_tables")
     public @ResponseBody
-    List<Map<String, Object>> getTables(@RequestParam("DBid") int DBid) {
+    Map<String, Object> getTables(@RequestParam("DBid") int DBid) {
         List<Databases> listtables = databases_service.listtables(DBid);
         List<Map<String, Object>> result = new ArrayList<>();
         for (Databases db : listtables) {
@@ -193,7 +194,8 @@ public class AdminController {
             dbMap.put("tablesname_en", db.gettablesname_en());
             result.add(dbMap);
         }
-        return result;
+//        return result;
+        return StatusCode.success(result);
     }//end getTables
 
 }
